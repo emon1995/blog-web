@@ -35,7 +35,7 @@ exports.signupPostController = async (req, res, next) => {
 
     let createdUser = await user.save();
     console.log("User Created Successfully", createdUser);
-    res.render("pages/auth/signup", { title: "Create A New Account" });
+    res.render("pages/auth/signup", { title: "Create A New Account", error: {}, value: {}}, );
   } catch (error) {
     console.log(error);
     next(error);
@@ -43,10 +43,10 @@ exports.signupPostController = async (req, res, next) => {
 };
 
 exports.loginGetController = (req, res, next) => {
+  console.log(req.session.user);
   res.render("pages/auth/login", {
     title: "Login Your Account",
     error: {},
-    value: {},
   });
 };
 
@@ -76,12 +76,27 @@ exports.loginPostController = async (req, res, next) => {
       });
     }
 
-    console.log("Successfully Logged In", user);
-    res.render("pages/auth/login", { title: "Login Your Account" });
+    req.session.isLoggedIn = true;
+    req.session.user = user;
+    req.session.save(err => {
+      if(err){
+        console.log(err);
+        next(err);
+      }
+      res.redirect("/dashboard");
+    })
   } catch (error) {
     console.log(error);
     next(error);
   }
 };
 
-exports.logoutController = (req, res, next) => {};
+exports.logoutController = (req, res, next) => {
+  req.session.destroy(err => {
+    if(err){
+      console.log(err);
+      return next(err);
+    }
+    return res.redirect("/auth/login");
+  })
+};

@@ -11,10 +11,8 @@
                         <input 
                         type="email" 
                         name="email" 
-                        value="<%= value.email ? value.email : "" %>"
                         id="email" 
-                        class="form-control 
-                        <%= error.email ? "is-invalid" : "" %> ">
+                        class="form-control <%= error.email ? " is-invalid" : "" %> ">
                         <div class="invalid-feedback">
                             <%= error.email && error.email %> 
                         </div>
@@ -25,8 +23,7 @@
                         type="password" 
                         name="password" 
                         id="password" 
-                        class="form-control 
-                        <%= error.password ? "is-invalid" : "" %>">
+                        class="form-control <%= error.password ? " is-invalid" : "" %> ">
                         <div class="invalid-feedback">
                             <%= error.password && error.password %> 
                         </div>

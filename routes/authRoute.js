@@ -7,9 +7,11 @@ const {
 } = require("../controllers/authController");
 
 const router = require("express").Router();
+const signupValidator = require("../validator/auth/signupValidator");
+
 
 router.get("/signup", signupGetController);
-router.post("/signup", signupPostController);
+router.post("/signup", signupValidator, signupPostController);
 
 router.get("/login", loginGetController);
 router.post("/login", loginPostController);
